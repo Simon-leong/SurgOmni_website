@@ -298,7 +298,7 @@
         'Blur+Haze': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Dual/Blur_Haze', item); }),
         'Haze+NUI': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Dual/Haze_NUI', item); }),
         'Smoke+Haze': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Dual/Smoke_Haze', item); }),
-        'Splash+Haze': ['level1|Level 1', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Dual/Splash_Haze', item); }),
+        'Splash+Haze': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Dual/Splash_Haze', item); }),
         'Smoke+Haze+NUI': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Triple/Smoke+Haze+NUI', item); }),
         'Smoke+Haze+Splash': ['level1|Level 1', 'level2|Level 2', 'level3|Level 3', 'level4|Level 4'].map(function (item) { return mediaItem('Triple/Smoke+Haze+Splash', item); })
       };
@@ -338,8 +338,8 @@
         return '<div class="level-comparison" style="--slider-pos:50%">' +
           '<div class="level-label">' + item.name + '</div>' +
           '<div class="comparison-media comparison-media--split" data-video-pair="' + pairId + '">' +
-            '<div class="comparison-pane comparison-pane--after"><video muted loop playsinline preload="none" data-src="' + item.gt + '" aria-label="' + label + ' ' + item.name + ' ground truth video"></video><span class="comparison-tag comparison-tag--after">GT</span></div>' +
-            '<div class="comparison-pane comparison-pane--before"><video muted loop playsinline preload="none" data-src="' + item.base + '.mp4" aria-label="' + label + ' ' + item.name + ' degraded video"></video><span class="comparison-tag comparison-tag--before">Degraded</span></div>' +
+            '<div class="comparison-pane comparison-pane--after"><video muted loop playsinline preload="none" data-src="' + item.gt + '" data-poster="' + item.gt.replace('.mp4', '.webp') + '" aria-label="' + label + ' ' + item.name + ' ground truth video"></video><span class="comparison-tag comparison-tag--after">GT</span></div>' +
+            '<div class="comparison-pane comparison-pane--before"><video muted loop playsinline preload="none" data-src="' + item.base + '.mp4" data-poster="' + item.base + '.webp" aria-label="' + label + ' ' + item.name + ' degraded video"></video><span class="comparison-tag comparison-tag--before">Degraded</span></div>' +
             '<input type="range" min="0" max="100" value="50" aria-label="Compare clean and degraded ' + label + ' ' + item.name + '">' +
             '<div class="comparison-handle"></div>' +
           '</div></div>';
@@ -460,7 +460,7 @@
         panel.innerHTML = panel.dataset.benchConfigs.split('|').map(function (label) {
           var source = benchMedia[label];
           var displayLabel = label.replace(/ · \d+$/, '');
-          var media = source ? '<div class="bench-media"><video muted loop playsinline preload="none" data-src="' + source + '" aria-label="' + label + ' authentic test clip"></video></div>' :
+          var media = source ? '<div class="bench-media"><video muted loop playsinline preload="none" data-src="' + source + '" data-poster="' + source.replace('.mp4', '.webp') + '" aria-label="' + label + ' authentic test clip"></video></div>' :
             '<div class="bench-media bench-media--missing" aria-label="' + label + ' source video not provided"><span class="missing-video-mark" aria-hidden="true">▶</span><span>Source video not provided</span></div>';
           return '<article class="bench-video-card">' + media + '<strong>' + displayLabel + '</strong></article>';
         }).join('');
@@ -468,8 +468,23 @@
       document.querySelectorAll('#omnibench-panels .category-panel.active').forEach(loadVisibleVideos);
       pauseInactiveVideos(document);
 
-      // Load and play videos only while their container is in (or near) the viewport;
-      // pause off-screen clips so the browser never decodes dozens of videos at once.
+      // Show each clip's first-frame poster early (well before it reaches the viewport)
+      // so every card displays an image almost instantly while the video streams in.
+      var posterObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.querySelectorAll('video[data-poster]').forEach(function (video) {
+            video.poster = video.dataset.poster;
+            video.removeAttribute('data-poster');
+          });
+          posterObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: '900px 0px', threshold: 0 });
+      document.querySelectorAll('.comparison-media, .bench-media').forEach(function (media) { posterObserver.observe(media); });
+
+      // Load and play videos only when their container is close to the viewport;
+      // the poster already fills the card, so we can defer the heavier video load and
+      // keep far fewer clips downloading/decoding at once.
       var mediaObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           var media = entry.target;
@@ -485,7 +500,7 @@
             media.querySelectorAll('video').forEach(function (video) { video.pause(); });
           }
         });
-      }, { rootMargin: '300px 0px', threshold: 0.01 });
+      }, { rootMargin: '150px 0px', threshold: 0.01 });
       document.querySelectorAll('.comparison-media, .bench-media').forEach(function (media) { mediaObserver.observe(media); });
 
       document.addEventListener('input', function (event) {
