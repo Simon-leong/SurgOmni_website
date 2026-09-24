@@ -43,8 +43,8 @@
       <h2>Abstract</h2>
       <p>Laparoscopic videos are affected by diverse degradations arising at different stages of the imaging process—smoke, lens condensation, fluid splashes, motion blur, and non-uniform illumination—making all-in-one surgical restoration necessary for real-world deployment. Progress remains constrained by three fundamental limitations: training datasets that either lack exact pixel-level degraded–clean correspondence or rely on simplified synthesis; real-world test sets that remain image-based and cover only a limited range of degradations and scenarios; and a poorly understood relationship between training degradation composition and real-world generalization. We introduce <strong>SurgOmni</strong>, a unified dataset and benchmark suite for all-in-one surgical <strong>video</strong> restoration. <strong>OmniSyn</strong> is a 44,000-frame paired training dataset covering 14 degradation configurations, built with a formation-aware synthesis pipeline: scene- and lens-space degradations are rendered by a physics-based 3D engine with temporal dynamics, while exposure- and illumination-related degradations are modeled through exposure integration and content-aware spatial photometric modeling. <strong>OmniBench</strong> is a 10,000-frame real-world video testing dataset spanning 6 surgical types, 10 target organs, 14 degradation configurations, and 27 surgical scenes. Extensive comparisons show that models trained on OmniSyn generalize best to real surgical data; comprehensive benchmarking reveals distinct strengths in restoration quality and temporal motion deviation obscured by limited image-based evaluation; and a training-composition study reveals how degradation composition affects real-world generalization, offering practical guidance for training-data design and restoration method development.</p>
       <figure class="teaser">
-        <img src="figure/Surgomni_p1.png?v=2" alt="Overview of the SurgOmni benchmark" class="teaser-img" width="2600" height="1588" fetchpriority="high" decoding="async">
-        <figcaption><strong>Figure 1.</strong> Overview of SurgOmni, including degradation-aware paired synthesis in OmniSyn and authentic multi-degradation evaluation in OmniBench.</figcaption>
+        <img src="figure/paper/overview.png" alt="Overview of SurgOmni: formation-aware paired training (OmniSyn) and real-world video testing (OmniBench), with benchmark-analysis radar charts for restoration quality and temporal motion deviation" class="teaser-img" width="2600" height="1480" fetchpriority="high" decoding="async">
+        <figcaption><strong>Figure 1.</strong> Overview of SurgOmni, comprising formation-aware paired training (OmniSyn) and real-world video testing (OmniBench) data. Benchmark analysis reports restoration quality as the normalized mean of TOPIQ, MUSIQ, and Q-Align, together with temporal motion deviation across single, double, and triple degradation.</figcaption>
       </figure>
     </section>
 
@@ -57,25 +57,25 @@
       <div class="dialog-shell">
         <header class="dialog-header dialog-header--pink">
           <h2 id="omnisyn-dialog-title">OmniSyn</h2>
-          <p>OmniSyn is a degradation-aware paired training set with 44,000 high-resolution frames. It synthesizes five surgical degradation types and nine compound combinations while preserving exact clean references and clip-level temporal consistency.</p>
+          <p>OmniSyn is a 44,000-frame paired training dataset in 440 videos (240 single-degradation, 200 multi-degradation), curated from CholecTrack20 and M2CAI16-TOOL clean clips and built with a formation-aware synthesis pipeline. Scene- and lens-space degradations (smoke, haze, splash) are rendered by a physics-based 3D engine with temporal dynamics, while exposure- and illumination-related degradations (motion blur, NUI) are modeled through exposure integration and content-aware spatial photometric modeling—preserving exact clean references and clip-level temporal consistency across 5 single types and 9 multi-degradation combinations.</p>
         </header>
         <div class="dialog-body">
           <figure class="paper-figure">
-            <img src="figure/pdf_p5-000.png" alt="OmniSyn degradation synthesis pipeline" loading="lazy" decoding="async">
-            <figcaption>OmniSyn pipeline: scene-, lens-, exposure-, and illumination-space mechanisms create five surgical degradations while preserving clip-level temporal continuity.</figcaption>
+            <img src="figure/paper/method.png" alt="OmniSyn degradation synthesis pipeline: Blender-based 3D rendering for scene- and lens-space degradations, and code-based synthesis for exposure- and illumination-related degradations" loading="lazy" decoding="async">
+            <figcaption><strong>Figure 2.</strong> The OmniSyn degradation synthesis pipeline. Five degradations are modeled according to their formation mechanisms across scene, lens, exposure, and illumination processes, with temporal dynamics explicitly preserved to produce physically consistent degradation evolution.</figcaption>
           </figure>
 
           <h3>Comparison with existing surgical restoration datasets</h3>
           <div class="table-scroll">
             <table class="data-table comparison-table">
-              <thead><tr><th>Dataset</th><th>Mode</th><th>Resolution</th><th>Smoke</th><th>Haze</th><th>Splash</th><th>Blur</th><th>NUI</th><th>Comp.</th><th>Scale</th><th>Paradigm / anatomy</th></tr></thead>
+              <thead><tr><th>Dataset</th><th>Mode</th><th>Resolution</th><th>Smoke</th><th>Haze</th><th>Splash</th><th>Blur</th><th>NUI</th><th>Multi.</th><th>Scale</th><th>Synthesis Paradigm</th></tr></thead>
               <tbody>
-                <tr><td>PSv2rs</td><td>Image</td><td>256×256</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>0</td><td>54,420</td><td>Frame-wise smoke synthesis</td></tr>
-                <tr><td>MARS-GAN</td><td>Image</td><td>256×256</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>0</td><td>18,000</td><td>Frame-wise smoke synthesis</td></tr>
-                <tr><td>PFAN</td><td>Image</td><td>480×480</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>0</td><td>660</td><td>Frame-wise smoke synthesis</td></tr>
-                <tr><td>STSVD</td><td>Video</td><td>1080×720</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>0</td><td>12,000</td><td>Temporal smoke synthesis</td></tr>
-                <tr><td>ICIP LVQ</td><td>Video</td><td>512×288</td><td>✓</td><td>×</td><td>×</td><td>✓</td><td>✓</td><td>5</td><td>20,000</td><td>Frame-wise multi-degradation synthesis</td></tr>
-                <tr class="best-row"><td><strong>OmniSyn</strong></td><td>Video</td><td>1080×720</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>9</td><td>44,000</td><td>Temporal multi-degradation synthesis</td></tr>
+                <tr><td>PSv2rs</td><td>Image</td><td>256×256</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>54,420</td><td>Frame-wise Smoke Synthesis</td></tr>
+                <tr><td>MARS-GAN</td><td>Image</td><td>256×256</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>18,000</td><td>Frame-wise Smoke Synthesis</td></tr>
+                <tr><td>PFAN</td><td>Image</td><td>480×480</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>660</td><td>Frame-wise Smoke Synthesis</td></tr>
+                <tr><td>STSVD</td><td>Video</td><td>1080×720</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>12,000</td><td>Temporal Smoke Synthesis</td></tr>
+                <tr><td>ICIP LVQ</td><td>Video</td><td>512×288</td><td>✓</td><td>×</td><td>×</td><td>✓</td><td>✓</td><td>✓</td><td>20,000</td><td>Frame-wise Multiple Degradation Synthesis</td></tr>
+                <tr class="best-row"><td><strong>OmniSyn</strong></td><td>Video</td><td>1080×720</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>44,000</td><td>Temporal Multiple Degradation Synthesis</td></tr>
               </tbody>
             </table>
           </div>
@@ -99,18 +99,18 @@
       <div class="dialog-shell">
         <header class="dialog-header dialog-header--blue">
           <h2 id="omnibench-dialog-title">OmniBench</h2>
-          <p>Real surgical clips with naturally co-occurring, multi-label degradations and no artificial clean target.</p>
+          <p>OmniBench is a 10,000-frame real-world video testing dataset in 100 videos (43 single-, 45 dual-, 12 triple-degradation), spanning 6 surgical types, 10 target organs, 14 degradation configurations, and 27 surgical scenes. It combines public gallbladder recordings with a newly curated clinical colorectal cohort to form the Gallbladder and Colon subsets, retaining naturally co-occurring multi-label degradations with no artificial clean target. OmniBench is reserved exclusively for evaluation.</p>
         </header>
         <div class="dialog-body">
           <h3>Comparison with existing surgical restoration datasets</h3>
           <div class="table-scroll">
             <table class="data-table comparison-table">
-              <thead><tr><th>Dataset</th><th>Mode</th><th>Resolution</th><th>Smoke</th><th>Haze</th><th>Splash</th><th>Blur</th><th>NUI</th><th>Comp.</th><th>Scale</th><th>Paradigm / anatomy</th></tr></thead>
+              <thead><tr><th>Dataset</th><th>Mode</th><th>Resolution</th><th>Smoke</th><th>Haze</th><th>Splash</th><th>Blur</th><th>NUI</th><th>Multi.</th><th>Scale</th><th>Surgical Anatomy</th></tr></thead>
               <tbody>
                 <tr><td>Vivo</td><td>Image</td><td>700×350</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>961</td><td>Prostate</td></tr>
                 <tr><td>SurgClean</td><td>Image</td><td>1280×720</td><td>✓</td><td>✓</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>3,113</td><td>Gall, Bile, Liver, Pan, Spl; Lung, Med, Eso</td></tr>
                 <tr><td>LSVD</td><td>Video</td><td>1080×1920</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>2,106</td><td>N/R</td></tr>
-                <tr><td>STSVD-R</td><td>Video</td><td>1080×720</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>2,400</td><td>Gallbladder†</td></tr>
+                <tr><td>STSVD-R</td><td>Video</td><td>1080×720</td><td>✓</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>2,400</td><td>Gall</td></tr>
                 <tr class="best-row"><td><strong>OmniBench</strong></td><td>Video</td><td>1080×720</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>10,000</td><td>Gall, Bile, Liver; Cec, AC, TC, DC, Sig, Rect, Meso</td></tr>
               </tbody>
             </table>
