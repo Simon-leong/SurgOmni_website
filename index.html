@@ -383,7 +383,12 @@
       function isVideoActive(video) {
         var panel = video.closest('.category-panel');
         if (!panel || !panel.classList.contains('active')) return false;
-        return !video.closest('.syn-config-row--extra') || panel.classList.contains('show-all-categories');
+        var okRow = !video.closest('.syn-config-row--extra') || panel.classList.contains('show-all-categories');
+        if (!okRow) return false;
+        // Only treat a video as active once its media container is in (or near) the viewport,
+        // so nothing loads or decodes until the user actually scrolls to it.
+        var media = video.closest('.comparison-media, .bench-media');
+        return !!media && media.dataset.inview === 'true';
       }
 
       function playVideo(video) {
@@ -469,6 +474,26 @@
       });
       document.querySelectorAll('#omnibench-panels .category-panel.active').forEach(loadVisibleVideos);
       pauseInactiveVideos(document);
+
+      // Load and play videos only while their container is in (or near) the viewport;
+      // pause off-screen clips so the browser never decodes dozens of videos at once.
+      var mediaObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var media = entry.target;
+          media.dataset.inview = entry.isIntersecting ? 'true' : 'false';
+          if (entry.isIntersecting) {
+            media.querySelectorAll('video').forEach(function (video) {
+              if (!isVideoActive(video)) return;
+              if (video.dataset.src) { video.src = video.dataset.src; video.removeAttribute('data-src'); video.load(); }
+            });
+            if (media.resumePlayback) media.resumePlayback();
+            else media.querySelectorAll('video').forEach(function (video) { if (isVideoActive(video)) playVideo(video); });
+          } else {
+            media.querySelectorAll('video').forEach(function (video) { video.pause(); });
+          }
+        });
+      }, { rootMargin: '300px 0px', threshold: 0.01 });
+      document.querySelectorAll('.comparison-media, .bench-media').forEach(function (media) { mediaObserver.observe(media); });
 
       document.addEventListener('input', function (event) {
         if (!event.target.matches('.comparison-media input[type="range"]')) return;
