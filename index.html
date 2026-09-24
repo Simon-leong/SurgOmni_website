@@ -9,9 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-  <!-- Title block intentionally preserved for later author-side editing. -->
-  <header class="hero">
+<body>  <header class="hero">
     <div class="hero-content">
       <div class="hero-title-row">
         <img class="hero-logo" src="fig/icon.png?v=3" alt="" aria-hidden="true">
@@ -38,9 +36,7 @@
     <a href="#conclusion">Conclusion</a>
   </nav>
 
-  <main>
-    <!-- Abstract intentionally preserved. -->
-    <section id="abstract" class="section scroll-reveal revealed">
+  <main>    <section id="abstract" class="section scroll-reveal revealed">
       <h2>Abstract</h2>
       <p>Laparoscopic videos are often affected by diverse degradations arising at different stages of the imaging process, making all-in-one surgical restoration necessary for real-world deployment. However, advancing all-in-one surgical restoration remains constrained by three fundamental limitations: (1) existing training datasets either lack exact pixel-level degraded-clean correspondence or rely on simplified synthesis that inadequately models the formation of complex surgical degradations; (2) existing real-world testing datasets often remain image-based and cover only a limited range of degradation types and surgical scenarios, restricting comprehensive evaluation of model performance; and (3) the relationship between all-in-one training degradation composition and real-world testing generalization remains poorly understood. To address these limitations, we introduce <strong>SurgOmni</strong>, a unified dataset and benchmark suite for all-in-one surgical video restoration. Specifically, we first propose <strong>OmniSyn</strong>, a 44,000-frame paired training dataset comprising 14 degradation configurations and constructed through a formation-aware synthesis pipeline, where scene- and lens-space degradations are rendered via a physics-based 3D engine with temporal dynamics, while exposure- and illumination-related degradations are modeled through exposure integration and content-aware spatial photometric modeling, respectively. Meanwhile, we further propose <strong>OmniBench</strong>, a 10,000-frame real-world video testing dataset spanning 6 surgical types, 10 target organs, 14 degradation configurations, and 27 surgical scenes. Extensive training-dataset comparisons first show that models trained on OmniSyn consistently achieve the strongest generalization to real surgical data. Comprehensive benchmarking across diverse restoration methods on OmniBench then reveals distinct strengths and limitations in restoration quality and temporal motion deviation that are obscured by limited real-world evaluation. Beyond performance evaluation, we further investigate how training-data degradation composition affects real-world testing generalization, revealing the relative effectiveness of different composition strategies. These findings provide practical guidance for training-data design and restoration method development for all-in-one surgical restoration.</p>
       <figure class="teaser">
