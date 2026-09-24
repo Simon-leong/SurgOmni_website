@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SURGOMNI: TOWARDS ALL-IN-ONE SURGICAL RESTORATION FOR COMPLEX MULTI-DEGRADATION</title>
+  <title>SurgOmni: Towards All-in-One Surgical Video Restoration</title>
   <link rel="icon" href="fig/icon.png" type="image/png">
   <link rel="stylesheet" href="style.css?v=7">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
         <span class="hero-logo hero-logo--surgomni" aria-hidden="true"><span></span></span>
         <h1>SurgOmni</h1>
       </div>
-      <p class="hero-subtitle">Towards All-in-One Surgical Restoration for Complex Multi-Degradation</p>
+      <p class="hero-subtitle">Towards All-in-One Surgical Video Restoration</p>
       <p class="hero-venues">Anonymous ICLR 2027 Submission</p>
       <div class="links">
         <a href="#" class="link-btn is-disabled" aria-disabled="true"><svg class="link-btn-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M14 2v6h5M9 13h7M9 17h7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg> Paper</a>
@@ -41,7 +41,7 @@
     <!-- Abstract intentionally preserved. -->
     <section id="abstract" class="section scroll-reveal revealed">
       <h2>Abstract</h2>
-      <p>Laparoscopic surgery relies on clear visualization for accurate decision-making, yet surgical videos are often degraded by smoke, fog, fluid, uneven illumination, and motion blur—often co-occurring in real procedures. To tackle the lack of paired supervision and the limitations of synthetic or pseudo-paired datasets, we introduce <strong>SurgOmni</strong>, a unified benchmark for all-in-one surgical image restoration under complex multi-degradation settings. It comprises <strong>OmniSyn</strong>, a degradation-aware paired training set with 44,000 high-resolution frames across 5 degradation types and 9 multi-degradation combinations, and <strong>OmniBench</strong>, a real-world evaluation benchmark with 10,000 frames spanning 6 surgical types, 10 organs, and 27 scenes with naturally co-occurring degradations. Extensive evaluations and surgeon assessments reveal inconsistencies among generic IQA metrics, validate OmniSyn’s effectiveness, and provide practical guidance for algorithm development and clinical dataset design.</p>
+      <p>Laparoscopic videos are affected by diverse degradations arising at different stages of the imaging process—smoke, lens condensation, fluid splashes, motion blur, and non-uniform illumination—making all-in-one surgical restoration necessary for real-world deployment. Progress remains constrained by three fundamental limitations: training datasets that either lack exact pixel-level degraded–clean correspondence or rely on simplified synthesis; real-world test sets that remain image-based and cover only a limited range of degradations and scenarios; and a poorly understood relationship between training degradation composition and real-world generalization. We introduce <strong>SurgOmni</strong>, a unified dataset and benchmark suite for all-in-one surgical <strong>video</strong> restoration. <strong>OmniSyn</strong> is a 44,000-frame paired training dataset covering 14 degradation configurations, built with a formation-aware synthesis pipeline: scene- and lens-space degradations are rendered by a physics-based 3D engine with temporal dynamics, while exposure- and illumination-related degradations are modeled through exposure integration and content-aware spatial photometric modeling. <strong>OmniBench</strong> is a 10,000-frame real-world video testing dataset spanning 6 surgical types, 10 target organs, 14 degradation configurations, and 27 surgical scenes. Extensive comparisons show that models trained on OmniSyn generalize best to real surgical data; comprehensive benchmarking reveals distinct strengths in restoration quality and temporal motion deviation obscured by limited image-based evaluation; and a training-composition study reveals how degradation composition affects real-world generalization, offering practical guidance for training-data design and restoration method development.</p>
       <figure class="teaser">
         <img src="figure/Surgomni_p1.png?v=2" alt="Overview of the SurgOmni benchmark" class="teaser-img" width="2600" height="1588" fetchpriority="high" decoding="async">
         <figcaption><strong>Figure 1.</strong> Overview of SurgOmni, including degradation-aware paired synthesis in OmniSyn and authentic multi-degradation evaluation in OmniBench.</figcaption>
