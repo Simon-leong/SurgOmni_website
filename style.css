@@ -346,3 +346,11 @@ footer { padding: 2.2rem 1rem 3.5rem; color: #8493a3; text-align: center; font-s
 .principle-grid article { min-height: auto; }
 .principle-grid span { margin-bottom: .55rem; }
 .principle-grid p { color: #5b7084; font-size: .9rem; }
+
+/* ===== Detail fixes (paper-review round 2) ===== */
+/* Best row (OmniSyn / OmniBench): shade the ENTIRE row, not just the name cell */
+.comparison-table .best-row td { background: #e4eefb; }
+/* Table titles centered */
+.table-title { text-align: center; }
+/* Discussion closing summary: centered pull-quote (was left-aligned with a left rule) */
+.discussion-callout { text-align: center; border-left: 0; border-radius: 16px; background: linear-gradient(180deg, #eef6fb, #f5fafc); padding: 1.4rem 1.8rem; max-width: 920px; margin: 1.5rem auto 0; }
