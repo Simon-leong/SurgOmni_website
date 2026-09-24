@@ -354,3 +354,14 @@ footer { padding: 2.2rem 1rem 3.5rem; color: #8493a3; text-align: center; font-s
 .table-title { text-align: center; }
 /* Discussion closing summary: centered pull-quote (was left-aligned with a left rule) */
 .discussion-callout { text-align: center; border-left: 0; border-radius: 16px; background: linear-gradient(180deg, #eef6fb, #f5fafc); padding: 1.4rem 1.8rem; max-width: 920px; margin: 1.5rem auto 0; }
+
+/* ===== Detail fixes (paper-review round 3) ===== */
+/* Disabled link buttons: reveal a short hint on click */
+.link-hint { min-height: 1.1em; margin: .75rem 0 0; color: #5a7391; font-size: .8rem; font-weight: 600; opacity: 0; transform: translateY(-3px); transition: opacity .25s ease, transform .25s ease; }
+.link-hint.show { opacity: 1; transform: none; }
+/* Table header: a horizontal rule above the metric-name row (booktabs-style) */
+.benchmark-table thead tr:last-child th, .composition-table thead tr:last-child th { border-top: 1px solid rgba(32,49,72,.22); }
+/* Denser vertical rhythm between sections */
+.section { padding: 3rem 0; }
+.section-lead { margin-bottom: 1.3rem; }
+@media (max-width: 760px) { .section { padding: 2.2rem 0; } }
