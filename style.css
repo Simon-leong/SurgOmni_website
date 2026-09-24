@@ -252,7 +252,7 @@ footer { padding: 2.2rem 1rem 3.5rem; color: #8493a3; text-align: center; font-s
 
 /* Blocks stack full-width (no lopsided copy-left / empty-right); compact rhythm between blocks */
 .experiment-block { display: block; margin: 1.15rem 0; padding: 1.8rem 2rem; }
-.experiment-block:first-of-type { margin-top: 1.6rem; }
+.experiment-block:first-of-type { margin-top: 0.6rem; }
 .experiment-number { display: inline-flex; align-items: center; justify-content: center; width: auto; height: auto; margin: 0 0 .8rem; padding: .32rem .8rem; border-radius: 999px; font-size: .72rem; font-weight: 800; letter-spacing: .14em; }
 .experiment-copy { padding-top: 0; }
 .experiment-copy + .experiment-copy { margin-top: .4rem; }

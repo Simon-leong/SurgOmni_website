@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SurgOmni: Towards All-in-One Surgical Video Restoration</title>
   <link rel="icon" href="fig/icon.png?v=2" type="image/png">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -135,8 +135,6 @@
 
     <section id="experiments" class="section section--wide scroll-reveal">
       <h2>Experiments & Analysis</h2>
-      <p class="section-lead">Three complementary analyses evaluate which training dataset transfers best to real surgery, how diverse restoration methods compare under authentic multi-degradation, and how the training degradation composition affects real-world generalization.</p>
-
       <article class="experiment-block experiment-block--green">
         <div class="experiment-copy"><h3>Training Dataset Comparison</h3>
           <p>To validate the effectiveness of OmniSyn as a training dataset, we compare it with the SurgClean image dataset and LVQ video dataset under two matched-budget settings with aligned scale and degradation types. The SurgClean comparison includes 13 image restoration methods, while the LVQ comparison includes the same image restoration methods and 2 video restoration methods.</p>
@@ -248,7 +246,6 @@
         <article><span>03</span><p><strong>All-in-one surgical restoration methods may benefit from jointly preserving fine-grained structures and limiting restoration-induced motion deviations rather than focusing only on stronger single-frame restoration or additional temporal inputs.</strong> Fine-grained structural modeling is associated with better preservation of tissue boundaries and instrument details, while more constrained restoration mappings may reduce unnecessary inter-frame motion deviations.</p></article>
         <article><span>04</span><p><strong>All-in-one surgical restoration methods using generative priors may benefit from incorporating measurement-consistency constraints and avoiding excessive latent-space compression.</strong> Without measurement-consistency constraints, generative priors may have greater freedom to re-estimate tissue boundaries and local textures beyond the observed evidence, while strong latent compression may further discard high-resolution texture and motion-relevant information.</p></article>
       </div>
-      <div class="discussion-callout">Reliable real-world generalization benefits from accurate degraded-clean correspondence, faithful degradation modeling, and effective training composition, while robust restoration requires consideration of both surgical structural preservation and restoration-induced motion deviation.</div>
     </section>
 
     <section id="conclusion" class="section scroll-reveal conclusion-section">
